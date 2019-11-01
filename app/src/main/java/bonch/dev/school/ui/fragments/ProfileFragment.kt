@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import bonch.dev.school.R
 import bonch.dev.school.ui.activities.MainAppActivity
+import bonch.dev.school.ui.models.Message
 
 class ProfileFragment: Fragment() {
 
@@ -21,6 +22,7 @@ class ProfileFragment: Fragment() {
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
         changePassButton = root.findViewById(R.id.change_password_button)
         changePassword()
+
         return root
     }
 

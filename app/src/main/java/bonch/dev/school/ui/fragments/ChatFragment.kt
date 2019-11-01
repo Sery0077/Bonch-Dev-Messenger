@@ -1,24 +1,25 @@
 package bonch.dev.school.ui.fragments
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import bonch.dev.school.R
+import bonch.dev.school.ui.activities.MainAppActivity
 import bonch.dev.school.ui.models.Message
 import bonch.dev.school.ui.ui.MessageAdapter
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
-import android.view.View.OnTouchListener
-import kotlinx.android.synthetic.main.fragment_chat.*
 import java.util.*
+import java.util.prefs.Preferences
 import kotlin.collections.ArrayList
 
 
@@ -27,6 +28,8 @@ class ChatFragment: Fragment() {
     private lateinit var messageRecyclerView: RecyclerView
     private lateinit var textMessage: EditText
     private lateinit var sendMessageButton: Button
+
+    private var TAG = "MyApp"
 
     private var currentIdMessage: Int = 20
 
@@ -39,23 +42,21 @@ class ChatFragment: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
 
-        if (savedInstanceState != null) messageList = savedInstanceState!!.getParcelableArrayList<Message>("messageList")!!
+         messageList = savedInstanceState?.getParcelableArrayList<Message>("messageList")!!
 
 
-        textMessage = view.findViewById(R.id.message_ed)
-        sendMessageButton = view.findViewById(R.id.send_message_button)
-
-        sendMessageButton.setOnClickListener {
+         textMessage = view.findViewById(R.id.message_ed)
+         sendMessageButton = view.findViewById(R.id.send_message_button)
+         sendMessageButton.setOnClickListener {
             if (!textMessage.text.trim().isNullOrEmpty()) sendMessage()
-        }
+         }
+         messageRecyclerView = view.findViewById(R.id.message_recycler_view)
+         messageRecyclerView.layoutManager = LinearLayoutManager(container!!.context)
+         messageRecyclerView.adapter = MessageAdapter(messageList)
+         messageRecyclerView.scrollToPosition(currentIdMessage)
+         Log.d(TAG, "OnCreateView")
 
-        messageRecyclerView = view.findViewById(R.id.message_recycler_view)
-        messageRecyclerView.layoutManager = LinearLayoutManager(container!!.context)
-        messageRecyclerView.adapter = MessageAdapter(messageList)
-
-        messageRecyclerView.scrollToPosition(currentIdMessage)
-
-        return view
+         return view
     }
 
 
@@ -66,6 +67,7 @@ class ChatFragment: Fragment() {
         val messageDate = sdf.format(Date())
         var currentMessage: Message
 
+
         currentIdMessage++
         currentMessage = Message(currentIdMessage, messageText, messageDate, true)
 
@@ -73,9 +75,7 @@ class ChatFragment: Fragment() {
 
         (messageRecyclerView.adapter as MessageAdapter).notifyDataSetChanged()
 
-        //(messageRecyclerView.adapter as MessageAdapter).addMessage(currentMessage)
-
-       //  messageRecyclerView.smoothScrollToPosition(currentIdMessage)
+        messageRecyclerView.smoothScrollToPosition(currentIdMessage)
 
         textMessage.text.clear()
     }
@@ -84,12 +84,8 @@ class ChatFragment: Fragment() {
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         super.onSaveInstanceState(savedInstanceState)
         savedInstanceState.putParcelableArrayList("messageList", messageList)
+        Log.d(TAG, "onSaved")
     }
-
-//    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-//        super.onViewStateRestored(savedInstanceState)
-//        messageList = savedInstanceState.getParcelableArrayList<>("messageList")
-//    }
 
 }
 

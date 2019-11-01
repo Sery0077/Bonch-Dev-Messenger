@@ -15,7 +15,7 @@ import bonch.dev.school.ui.models.Message
 
 class  MessageAdapter(messageList: ArrayList<Message>) : RecyclerView.Adapter<MessageAdapter.MessageHolder>() {
 
-    private var messageList: ArrayList<Message> = if (messageList != null) messageList else ArrayList()
+    private var messageList: ArrayList<Message> = messageList
 
     override fun getItemCount(): Int = messageList.size
 
