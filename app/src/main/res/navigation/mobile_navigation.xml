@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_chat">
+
+    <fragment
+        android:id="@+id/nav_profile"
+        tools:layout="@layout/fragment_profile"
+        android:name="bonch.dev.school.ui.fragments.ProfileFragment"
+        android:label="@string/drawer_item_profile" />
+
+    <fragment
+        android:id="@+id/nav_chat"
+        tools:layout="@layout/fragment_chat"
+        android:name="bonch.dev.school.ui.fragments.ChatFragment"
+        android:label="@string/drawer_item_chat"/>
+
+</navigation>

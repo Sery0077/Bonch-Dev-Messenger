@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/avatar_image_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/name_edit_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.45"
+        app:srcCompat="@drawable/avatar" />
+
+    <EditText
+        android:id="@+id/name_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="#00FFFFFF"
+        android:ems="10"
+        android:hint="Имя"
+        android:inputType="textPersonName"
+        android:text="Bender"
+        android:textColor="#181818"
+        android:textColorHighlight="@color/colorDefault"
+        android:textColorHint="@color/colorText"
+        android:textCursorDrawable="@null"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/email_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="250dp"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <TextView
+        android:id="@+id/email_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="my_email@gmail.com"
+        android:textColor="#181818"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/email_confirm_button"
+        app:layout_constraintEnd_toEndOf="@+id/name_edit_text"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/name_edit_text"
+        app:layout_constraintWidth_max="250dp"
+        app:layout_constraintWidth_percent="0.6" />
+
+    <Button
+        android:id="@+id/email_confirm_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_style"
+        android:hapticFeedbackEnabled="false"
+        android:hint="Подтвердить почту"
+        android:minHeight="45dp"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/change_password_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="300dp"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Button
+        android:id="@+id/change_password_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/button_style"
+        android:hint="Поменять пароль"
+        android:minHeight="45dp"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/sigh_out_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="300dp"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <Button
+        android:id="@+id/sigh_out_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/button_style"
+        android:hint="Выйти"
+        android:minHeight="45dp"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_max="300dp"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.97127223" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
