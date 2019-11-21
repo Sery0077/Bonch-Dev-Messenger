@@ -27,7 +27,6 @@
         android:ems="10"
         android:hint="Имя"
         android:inputType="textPersonName"
-        android:text="Bender"
         android:textColor="#181818"
         android:textColorHighlight="@color/colorDefault"
         android:textColorHint="@color/colorText"
@@ -44,7 +43,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="my_email@gmail.com"
         android:textColor="#181818"
         android:textSize="18dp"
         app:layout_constraintBottom_toTopOf="@+id/email_confirm_button"
@@ -79,14 +77,14 @@
         android:hint="Поменять пароль"
         android:minHeight="45dp"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/sigh_out_button"
+        app:layout_constraintBottom_toTopOf="@+id/sign_out_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintWidth_max="300dp"
         app:layout_constraintWidth_percent="0.7" />
 
     <Button
-        android:id="@+id/sigh_out_button"
+        android:id="@+id/sign_out_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"

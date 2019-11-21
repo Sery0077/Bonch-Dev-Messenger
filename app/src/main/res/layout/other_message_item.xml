@@ -39,10 +39,6 @@
                 android:layout_marginStart="6dp"
                 android:layout_marginTop="2dp"
                 android:maxWidth="270dp"
-                app:autoSizeMaxTextSize="20sp"
-                app:autoSizeMinTextSize="16sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/other_user_name" />
 
@@ -64,10 +60,6 @@
                 android:maxLines="1"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                app:autoSizeMaxTextSize="22sp"
-                app:autoSizeMinTextSize="18sp"
-                app:autoSizeStepGranularity="2sp"
-                app:autoSizeTextType="uniform"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

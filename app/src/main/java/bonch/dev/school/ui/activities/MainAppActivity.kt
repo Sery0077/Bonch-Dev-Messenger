@@ -1,6 +1,7 @@
 package bonch.dev.school.ui.activities
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,9 @@ import bonch.dev.school.R
 import bonch.dev.school.R.menu.main
 import bonch.dev.school.ui.fragments.ChatFragment
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 
 class MainAppActivity : AppCompatActivity() {
@@ -25,9 +29,27 @@ class MainAppActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     private var changePassFragment = PasswordFragment()
 
+    private lateinit var mAuth: FirebaseAuth
+    private lateinit var mRef: DatabaseReference
+    private lateinit var mDatabase: FirebaseDatabase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_app)
+
+        mDatabase = FirebaseDatabase.getInstance()
+        mRef = mDatabase!!.reference.child("Users")
+        mAuth = FirebaseAuth.getInstance()
+
+        val currentUser = mAuth.currentUser
+
+        if (currentUser == null) {
+            val user = FirebaseAuth.getInstance().currentUser
+
+            val intent = Intent(this, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+        }
 
 
 

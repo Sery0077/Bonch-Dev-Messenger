@@ -68,6 +68,7 @@
             android:foregroundGravity="center_vertical"
             android:hint="Логин"
             android:inputType="text"
+            android:text="login"
             android:textColor="@color/colorDefault"
             android:textCursorDrawable="@null"
             app:layout_constraintBottom_toTopOf="@+id/password_sign_up_et"
@@ -76,6 +77,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
+            android:id="@+id/email_et"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
@@ -84,6 +86,7 @@
             android:foregroundGravity="center_vertical"
             android:hint="Почта"
             android:inputType="textEmailAddress"
+            android:text="login"
             android:textColor="@color/colorDefault"
             android:textCursorDrawable="@null"
             app:layout_constraintBottom_toTopOf="@+id/login_et"
@@ -100,6 +103,7 @@
             android:ems="10"
             android:hint="Пароль"
             android:inputType="textPassword"
+            android:text="1234567"
             android:textColor="@color/colorDefault"
             android:textCursorDrawable="@null"
             app:layout_constraintBottom_toTopOf="@+id/password_confirm_et"
@@ -116,6 +120,7 @@
             android:foregroundGravity="center_vertical"
             android:hint="Подтвердите пароль"
             android:inputType="textPassword"
+            android:text="1234567"
             android:textColor="@color/colorDefault"
             android:textCursorDrawable="@null"
             app:layout_constraintBottom_toBottomOf="parent"
