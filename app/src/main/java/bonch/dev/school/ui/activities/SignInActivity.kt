@@ -3,19 +3,14 @@ package bonch.dev.school.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import bonch.dev.school.R
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.sign_in_activity.*
-import java.io.IOError
-import java.io.IOException
 
 class SignInActivity : AppCompatActivity() {
 
@@ -33,7 +28,7 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.sign_in_activity)
 
         mDatabase = FirebaseDatabase.getInstance()
-        mRef = mDatabase!!.reference.child("Users")
+        mRef = mDatabase.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
 
         emailEt = findViewById(R.id.email_sign_in_edit_text)
@@ -47,9 +42,9 @@ class SignInActivity : AppCompatActivity() {
 
     }
 
-    fun signUpActivity() {
-        signUpButton.setOnClickListener() {
-            val intent = Intent(SignInActivity@ this, SignUpActivity()::class.java)
+    private fun signUpActivity() {
+        signUpButton.setOnClickListener {
+            val intent = Intent(this, SignUpActivity()::class.java)
             startActivity(intent)
         }
     }

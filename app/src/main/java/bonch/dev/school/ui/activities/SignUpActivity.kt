@@ -1,29 +1,18 @@
 package bonch.dev.school.ui.activities
 
 import android.content.Intent
-import android.icu.util.EthiopicCalendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import bonch.dev.school.R
-import bonch.dev.school.R.id.complete_sign_up_button
-import com.google.firebase.FirebaseException
+import bonch.dev.school.ui.models.User
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import kotlinx.android.synthetic.main.fragment_profile.*
-import kotlinx.android.synthetic.main.sign_up_activity.*
-import java.io.IOError
-import java.io.IOException
-import java.lang.Exception
+import com.google.firebase.database.*
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -31,7 +20,6 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mRef: DatabaseReference
     private lateinit var mDatabase: FirebaseDatabase
-    private lateinit var dataSnapshot: DataSnapshot
 
     private lateinit var loginEt: EditText
     private lateinit var emailEt: EditText
@@ -49,44 +37,64 @@ class SignUpActivity : AppCompatActivity() {
         signUpButton = findViewById(R.id.complete_sign_up_button)
 
         mDatabase = FirebaseDatabase.getInstance()
-        mRef = mDatabase!!.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
+        mRef = mDatabase.reference.child("Users")
 
-        signUpButton.setOnClickListener { signUp() }
-
-    }
-
-    class FbLocalizedMessage(): Throwable() {
-        override fun getLocalizedMessage(): String? {
-
-            return super.getLocalizedMessage()
+        signUpButton.setOnClickListener {
+            signUp()
         }
     }
 
     private fun signUp() {
 
-        var login = loginEt.text.toString()
-        var email = emailEt.text.toString()
-        var password = passEt.text.toString()
-        var cPassword = cPassEt.text.toString()
+        val login = loginEt.text.toString()
+        val email = emailEt.text.toString()
+        val password = passEt.text.toString()
+        val cPassword = cPassEt.text.toString()
 
-        if (password == cPassword && password.isNotEmpty()) {
+        if (password == cPassword && password.isNotEmpty() && login.isNotEmpty()) {
             mAuth
                 .createUserWithEmailAndPassword(email, password)
-                .addOnSuccessListener {
-                        val user = mAuth!!.currentUser!!.uid
-                        val currentUserDb = mRef!!.child(user)
-                        currentUserDb.child("name").setValue(login)
+                .addOnCompleteListener(object : OnCompleteListener<AuthResult> {
+                    override fun onComplete(task: Task<AuthResult>) {
+                        if (task.isSuccessful) {
+                            val user = User(email, login)
+                            val uid = mAuth.currentUser!!.uid
 
-                        mainAppActivity()
+                            mRef.child(uid).setValue(user)
+                                .addOnCompleteListener(object : OnCompleteListener<Void> {
+                                    override fun onComplete(task: Task<Void>) {
+                                        if (task.isSuccessful) {
+                                            mainAppActivity()
+                                        }
+                                    }
+                                })
+                                .addOnFailureListener {
+                                    Toast.makeText(
+                                        this@SignUpActivity,
+                                        it.localizedMessage,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                        }
+                    }
+                })
+                .addOnFailureListener {
+                    Toast.makeText(this@SignUpActivity, it.localizedMessage, Toast.LENGTH_LONG)
+                        .show()
                 }
-//                .addOnFailureListener(this) {
-//                    Toast.makeText(this, "$", Toast.LENGTH_LONG).show()
-//                }
-                .addOnFailureListener { FirebaseAuthException ->
-                    Toast.makeText(this, "${FirebaseAuthException.localizedMessage}", Toast.LENGTH_LONG).show()
-                }
-        } else Toast.makeText(this, "Пароли должны совпадать и быть больше 6 символов", Toast.LENGTH_LONG).show()
+        } else
+            if (cPassword !== password) Toast.makeText(
+                this,
+                "Пароли должны совпадать и быть больше 6 символов",
+                Toast.LENGTH_LONG
+            ).show()
+            else Toast.makeText(
+                this,
+                "Все поля должны быть заполнены",
+                Toast.LENGTH_LONG
+            ).show()
+
     }
 
     private fun mainAppActivity() {

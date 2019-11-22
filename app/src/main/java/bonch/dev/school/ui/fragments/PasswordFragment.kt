@@ -47,10 +47,10 @@ class PasswordFragment: DialogFragment() {
         confPassEt = view.findViewById(R.id.confirm_password_edit_text)
 
         mDatabase = FirebaseDatabase.getInstance()
-        mRef = mDatabase!!.reference.child("Users")
+        mRef = mDatabase.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
         user = mAuth.currentUser!!
-        emailUser = user!!.email!!
+        emailUser = user.email!!
 
         changePass()
 
@@ -59,9 +59,9 @@ class PasswordFragment: DialogFragment() {
 
     private fun changePass() {
         changePassBtn.setOnClickListener {
-            var currentPass = currentPassEt.text.toString()
-            var newPass = newPassEt.text.toString()
-            var confPass = confPassEt.text.toString()
+            val currentPass = currentPassEt.text.toString()
+            val newPass = newPassEt.text.toString()
+            val confPass = confPassEt.text.toString()
 
             val credential = EmailAuthProvider.getCredential(emailUser, currentPass)
 

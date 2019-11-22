@@ -19,6 +19,7 @@ import bonch.dev.school.R.menu.main
 import bonch.dev.school.ui.fragments.ChatFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
@@ -38,13 +39,10 @@ class MainAppActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main_app)
 
         mDatabase = FirebaseDatabase.getInstance()
-        mRef = mDatabase!!.reference.child("Users")
+        mRef = mDatabase.reference.child("Users")
         mAuth = FirebaseAuth.getInstance()
 
-        val currentUser = mAuth.currentUser
-
-        if (currentUser == null) {
-            val user = FirebaseAuth.getInstance().currentUser
+        if (mAuth.currentUser == null) {
 
             val intent = Intent(this, SignInActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

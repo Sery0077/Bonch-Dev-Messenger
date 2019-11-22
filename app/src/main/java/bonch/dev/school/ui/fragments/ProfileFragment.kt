@@ -21,9 +21,7 @@ import bonch.dev.school.ui.models.Message
 import com.google.firebase.auth.EmailAuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.fragment_chat.view.*
 import kotlinx.android.synthetic.main.password_fragment.*
 
@@ -32,11 +30,11 @@ class ProfileFragment: Fragment() {
     private lateinit var changePassButton: Button
     private lateinit var signOutBtn: Button
     private lateinit var confirmEmailBtn: Button
+    private lateinit var emailUserTw: TextView
+    private lateinit var loginUserEt: EditText
 
-    private lateinit var emailUser: TextView
-    private lateinit var loginUser: EditText
+    private var loginCurrentUser: String? = null
 
-    private lateinit var emailCurrentUser: String
     private lateinit var mAuth: FirebaseAuth
     private lateinit var mRef: DatabaseReference
     private lateinit var mDatabase: FirebaseDatabase
@@ -48,22 +46,37 @@ class ProfileFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_profile, container, false)
+
         changePassButton = root.findViewById(R.id.change_password_button)
         signOutBtn = root.findViewById(R.id.sign_out_button)
         confirmEmailBtn = root.findViewById(R.id.email_confirm_button)
-        emailUser = root.findViewById(R.id.email_text_view)
-        loginUser = root.findViewById(R.id.name_edit_text)
+        emailUserTw = root.findViewById(R.id.email_text_view)
+        loginUserEt = root.findViewById(R.id.name_edit_text)
 
         mDatabase = FirebaseDatabase.getInstance()
         mAuth = FirebaseAuth.getInstance()
         user = mAuth.currentUser!!
+        user.reload()
         mRef = mDatabase!!.reference.child("Users").child(user.uid)
 
-        emailCurrentUser = user.email.toString()
+        mRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+            }
 
-        emailUser.text = emailCurrentUser
+            override fun onDataChange(p0: DataSnapshot) {
+                val login = p0.child("login").getValue(String::class.java)
+                if (login !== null) {
+                    loginUserEt.setText(login)
+                }
+            }
 
-        if (mAuth.currentUser!!.isEmailVerified) {
+        })
+
+        emailUserTw.text = user.email
+
+        if (loginCurrentUser !== null) loginUserEt.setText(loginCurrentUser)
+
+        if (user.isEmailVerified) {
             confirmEmailBtn.isVisible = false
         }
 
@@ -95,10 +108,10 @@ class ProfileFragment: Fragment() {
         confirmEmailBtn.setOnClickListener {
             user.sendEmailVerification()
                 .addOnSuccessListener {
-                    Toast.makeText(MainAppActivity@context, "Письмо с подтвержденим отправлено на почту", Toast.LENGTH_LONG).show()
+                    Toast.makeText(ProfileFragment@context, "Письмо с подтвержденим отправлено на почту", Toast.LENGTH_LONG).show()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(MainAppActivity@context, "${it.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(ProfileFragment@context, "${it.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }

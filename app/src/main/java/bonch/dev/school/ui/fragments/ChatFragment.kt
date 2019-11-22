@@ -1,5 +1,6 @@
 package bonch.dev.school.ui.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -95,12 +96,13 @@ class ChatFragment: Fragment() {
          return view
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun sendMessage() {
 
-        var messageText: String = textMessage.text.toString()
+        val messageText: String = textMessage.text.toString()
         val sdf = SimpleDateFormat("dd/MM/yy hh:mm:ss a")
         val messageDate = sdf.format(Date())
-        var currentMessage: Message
+        val currentMessage: Message
 
         if (isOnline(ChatFragment@context!!)) {
             currentIdMessage++
@@ -112,11 +114,11 @@ class ChatFragment: Fragment() {
                 }
 
                 .addOnFailureListener {
-                    Toast.makeText(MainAppActivity@ context, "${it.message}", Toast.LENGTH_LONG)
+                    Toast.makeText(ChatFragment@ context, "${it.message}", Toast.LENGTH_LONG)
                         .show()
                 }
         } else {
-            Toast.makeText(MainAppActivity@context, "Проверьте ваше подключение к сети", Toast.LENGTH_LONG).show()
+            Toast.makeText(ChatFragment@context, "Проверьте ваше подключение к сети", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -146,22 +148,6 @@ class ChatFragment: Fragment() {
     companion object {
         private var mBundleRecyclerViewState: Bundle? = null
     }
-
-//    var items = arrayListOf(
-//        Message(0, "SimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(1, "SimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), false),
-//        Message(2, "SimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(3, "SimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), false),
-//        Message(4, "SimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(5, "SimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(6, "SimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), false),
-//        Message(7, "SimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(8, "SimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), false),
-//        Message(9, "ffff", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(10, "SimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), false),
-//        Message(11, "SimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), true),
-//        Message(12, "SimpleTextSimpleText", SimpleDateFormat("hh:mm:ss").format(Date()), false)
-//    )
 
     private fun isOnline(context: Context): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
